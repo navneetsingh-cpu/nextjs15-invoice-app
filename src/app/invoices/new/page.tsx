@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 
-export default function Home() {
+export default async function Home() {
   return (
     <main className="flex flex-col justify-center h-screen gap-6 max-w-5xl mx-auto my-12">
       <div className="flex justify-between">
@@ -15,7 +15,6 @@ export default function Home() {
           <Label htmlFor="name">Billing Name</Label>
           <Input id="name" name="name" type="text" />
         </div>
-
         <div className="block font-semibold text-sm mb-2">
           <Label htmlFor="email">Billing Email</Label>
           <Input id="email" name="email" type="email" />
