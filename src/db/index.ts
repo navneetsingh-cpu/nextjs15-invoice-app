@@ -1,5 +1,6 @@
 import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
+import { Invoices } from "./schema";
 
 
 const pool = new Pool({
@@ -7,4 +8,8 @@ const pool = new Pool({
     max: 20,
 });
 
-export const db = drizzle(pool);
+export const db = drizzle(pool, {
+    schema: {
+        Invoices
+    }
+});
