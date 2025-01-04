@@ -3,6 +3,7 @@ import { db } from "@/db";
 import { Invoices } from "@/db/schema";
 import { cn } from "@/lib/utils";
 import { eq } from "drizzle-orm";
+import { notFound } from "next/navigation";
 
 export default async function InvoicePage({
   params,
@@ -12,11 +13,19 @@ export default async function InvoicePage({
   const { invoiceId } = await params;
   const invoiceIdKey = parseInt(invoiceId);
 
+  if (isNaN(invoiceIdKey)) {
+    throw new Error("Invalid invoice ID");
+  }
+
   const [result] = await db
     .select()
     .from(Invoices)
     .where(eq(Invoices.id, invoiceIdKey))
     .limit(1);
+
+  if (!result) {
+    notFound();
+  }
 
   return (
     <main className="h-screen max-w-5xl mx-auto my-12">
