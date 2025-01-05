@@ -2,14 +2,21 @@ import { Badge } from "@/components/ui/badge";
 import { db } from "@/db";
 import { Invoices } from "@/db/schema";
 import { cn } from "@/lib/utils";
-import { eq } from "drizzle-orm";
+import { eq, and } from "drizzle-orm";
 import { notFound } from "next/navigation";
+import { auth } from "@clerk/nextjs/server";
 
 export default async function InvoicePage({
   params,
 }: {
   params: { invoiceId: string };
 }) {
+  const { userId } = await auth();
+
+  if (!userId) {
+    return; // Disable for unauthroized users
+  }
+
   const { invoiceId } = await params;
   const invoiceIdKey = parseInt(invoiceId);
 
@@ -20,7 +27,7 @@ export default async function InvoicePage({
   const [result] = await db
     .select()
     .from(Invoices)
-    .where(eq(Invoices.id, invoiceIdKey))
+    .where(and(eq(Invoices.id, invoiceIdKey), eq(Invoices.userId, userId)))
     .limit(1);
 
   if (!result) {
