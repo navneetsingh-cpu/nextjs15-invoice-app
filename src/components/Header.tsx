@@ -8,7 +8,7 @@ const Header = () => {
       <Container>
         <div className="flex justify-between items-center gap-4">
           <p className="font-bold">
-            <Link href="/dashboard"></Link> Invoicipedia
+            <Link href="/dashboard">Invoicipedia</Link>
           </p>
           <div>
             <SignedOut>
